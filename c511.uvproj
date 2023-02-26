@@ -401,6 +401,11 @@
               <FileType>1</FileType>
               <FilePath>.\Sys\uln2003.c</FilePath>
             </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sys\delay.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
