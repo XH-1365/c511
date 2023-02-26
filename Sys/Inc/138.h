@@ -9,3 +9,4 @@
 #define ULN2003 5
 
 void SendTo(unsigned char select, unsigned char dat);
+void LED_Set(unsigned char led);

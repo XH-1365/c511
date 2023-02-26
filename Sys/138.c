@@ -12,3 +12,8 @@ void SendTo(unsigned char select, unsigned char dat)
 	P2 = p2;
 	P0 = p0;
 }
+
+void LED_Set(unsigned char led)
+{
+	SendTo(LED, led);
+}
