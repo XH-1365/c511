@@ -6,5 +6,5 @@
 void Cls_Periphreal()
 {
 	SendTo(LED, 0xff);
-	BUZZ_Power(ON);
+	BUZZ_Power(OFF);
 }
