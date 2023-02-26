@@ -1,3 +1,4 @@
 *.uvgui.*
+*.uvgui_user.*
 Listings/
 Objects/
