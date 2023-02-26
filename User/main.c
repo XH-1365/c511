@@ -1,5 +1,16 @@
-#include "STC15F2K60S2.H"
+#include "sys.h"
 
-void main() {
-	while(1);
+#include "STC15F2K60S2.h"
+
+void main()
+{
+	// Init
+	Cls_Periphreal();
+	
+	// Start
+	
+	while(1)
+	{
+		// Loop
+	}
 }
