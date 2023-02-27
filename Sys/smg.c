@@ -7,23 +7,25 @@
 typedef struct
 {
 	char pattern;
-	unsigned char brightness;
+	unsigned int brightness;
 } SMG_Unit;
 
 SMG_Unit units[8] = {0};
 
-void _SMG_SetTimeout(unsigned char timeout)
+void _SMG_SetTimeout(unsigned int timeout)
 {
-	TL0 = -timeout;		//设置定时初值
-	TH0 = 0xff;		//设置定时初值
+	// timeout = 0x4000 - (timeout >> 2);
+	timeout = ~timeout;
+	TL0 = timeout & 0xff;		//设置定时初值
+	TH0 = ((timeout >> 8) & 0xff);		//设置定时初值
 }
 
 void Timer0Init(void)		//5微秒@11.0592MHz
 {
-	AUXR &= 0x80;		//定时器时钟12T模式
+	AUXR |= 0x80;		//定时器时钟1T模式
 	TMOD &= 0xF0;		//设置定时器模式
-	TMOD |= 0x01;
-	TL0 = 0xFB;		//设置定时初值
+	TMOD |= 0x01;		//设置定时器模式
+	TL0 = 0xF5;		//设置定时初值
 	TH0 = 0xFF;		//设置定时初值
 	TF0 = 0;		//清除TF0标志
 	TR0 = 1;		//定时器0开始计时
@@ -47,7 +49,7 @@ void SMG_Deinit(void)
 	TR0 = 0;
 }
 
-void SMG_ShowPattern(unsigned char pos, unsigned char pattern, unsigned char brightness)
+void SMG_ShowPattern(unsigned char pos, unsigned char pattern, unsigned int brightness)
 {
 	units[pos].pattern = pattern;
 	units[pos].brightness = brightness;
@@ -55,17 +57,21 @@ void SMG_ShowPattern(unsigned char pos, unsigned char pattern, unsigned char bri
 
 const unsigned char CHAR_PATTERN[] = {0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90};
 
-void SMG_ShowChar(unsigned char pos, char ch, unsigned char brightness)
+void SMG_ShowChar(unsigned char pos, char ch, unsigned int brightness)
 {
 	char pattern = 0xff;
 	if (ch >= '0' && ch <= '9')
 	{
 		pattern = CHAR_PATTERN[ch - '0'];
 	}
+	else if(ch == '-')
+	{
+		pattern = 0xbf;
+	}
 	SMG_ShowPattern(pos, pattern, brightness);
 }
 
-void SMG_SetBrightness(unsigned char pos, unsigned char brightness)
+void SMG_SetBrightness(unsigned char pos, unsigned int brightness)
 {
 	units[pos].brightness = brightness;
 }
@@ -77,7 +83,7 @@ void SMG_ShowStr(unsigned char pos, char * str)
 	{
 		if (!str[i])
 			return;
-		SMG_ShowChar(pos + i, str[i], 100);
+		SMG_ShowChar(pos + i, str[i], 60000);
 	}
 }
 
@@ -99,8 +105,11 @@ void _SMG_Flash() interrupt 1
 	}
 	else
 	{
-		SendTo(SMG_POS, 1 << i);
-		SendTo(SMG_CHAR, units[i].pattern);
+		if (units[i].brightness)
+		{
+			SendTo(SMG_POS, 1 << i);
+			SendTo(SMG_CHAR, units[i].pattern);
+		}
 		_SMG_SetTimeout(units[i].brightness);
 	}
 	
