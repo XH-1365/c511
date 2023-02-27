@@ -6,11 +6,16 @@
 #include "STC15F2K60S2.h"
 
 #include "stdio.h"
+#include "math.h"
+
+#define max(a,b)(a>b?a:b)
+#define min(a,b)(a<b?a:b)
 
 void main()
 {
-	char offset = 0;
-	char str[] = " 114514\0 ";
+	unsigned int o;
+	char str[] = "-114514-\0 ";
+	//char str[] = "88888888";
 	char i;
 	
 	// Init
@@ -20,16 +25,34 @@ void main()
 	// Start
 	SMG_ShowStr(0, str);
 	
+	
+	
 	while(1)
 	{
 		// Loop
 		
+		// 渐入
+		for(o = 0; o <= 60000; ++o)
+		{
 			for(i = 0; i < 8; ++i)
 			{
-				SMG_SetBrightness((offset + i) % 8, 1 << i);
+				SMG_SetBrightness(i, o);
 			}
-			offset = (offset + 1) % 8;
+		}
 		
-			Delay(50);
+		// 维持
+		Delay(4000);
+		
+		// 渐出
+		for(o = 60000; o <= 60000; --o)
+		{
+			for(i = 0; i < 8; ++i)
+			{
+				SMG_SetBrightness(i, o);
+			}
+		}
+		
+		// 维持
+		Delay(2000);
 	}
 }
