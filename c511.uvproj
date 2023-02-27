@@ -389,12 +389,7 @@
             <File>
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Sys\keyboard.c</FilePath>
-            </File>
-            <File>
-              <FileName>smg.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Sys\smg.c</FilePath>
+              <FilePath>.\Sys\delay.c</FilePath>
             </File>
           </Files>
         </Group>
