@@ -386,6 +386,11 @@
               <FileType>1</FileType>
               <FilePath>.\Sys\smg.c</FilePath>
             </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sys\delay.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
