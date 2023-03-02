@@ -57,18 +57,29 @@ void SMG_ShowPattern(unsigned char pos, unsigned char pattern, unsigned int brig
 
 const unsigned char CHAR_PATTERN[] = {0xc0, 0xf9, 0xa4, 0xb0, 0x99, 0x92, 0x82, 0xf8, 0x80, 0x90};
 
-void SMG_ShowChar(unsigned char pos, char ch, unsigned int brightness)
+unsigned char SMG_ShowChar(unsigned char pos, char ch, unsigned int brightness)
 {
 	char pattern = 0xff;
 	if (ch >= '0' && ch <= '9')
 	{
 		pattern = CHAR_PATTERN[ch - '0'];
 	}
-	else if(ch == '-')
+	else
 	{
-		pattern = 0xbf;
+		switch (ch) {
+			case '-':
+				pattern = 0xbf;
+				break;
+			case '.':
+				if (pos > 0)
+					--pos;
+				pattern = units[pos].pattern & ~0x80;
+				break;
+		}
 	}
 	SMG_ShowPattern(pos, pattern, brightness);
+
+	return pos;
 }
 
 void SMG_SetBrightness(unsigned char pos, unsigned int brightness)
@@ -79,11 +90,11 @@ void SMG_SetBrightness(unsigned char pos, unsigned int brightness)
 void SMG_ShowStr(unsigned char pos, char * str)
 {
 	char i;
-	for(i = 0; i + pos < 8; ++i)
+	for(i = 0; pos < 8; ++i)
 	{
 		if (!str[i])
 			return;
-		SMG_ShowChar(pos + i, str[i], 60000);
+		pos = SMG_ShowChar(pos, str[i], 60000) + 1;
 	}
 }
 
