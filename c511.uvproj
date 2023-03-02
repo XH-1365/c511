@@ -416,6 +416,11 @@
               <FileType>1</FileType>
               <FilePath>.\Sys\delay.c</FilePath>
             </File>
+            <File>
+              <FileName>DS18B20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Sys\DS18B20.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
