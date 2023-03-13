@@ -1,4 +1,5 @@
 *.uvgui.*
 *.uvgui_user.*
+*.uvopt
 Listings/
 Objects/
