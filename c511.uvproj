@@ -391,11 +391,6 @@
               <FileType>1</FileType>
               <FilePath>.\Sys\keyboard.c</FilePath>
             </File>
-            <File>
-              <FileName>smg.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Sys\smg.c</FilePath>
-            </File>
           </Files>
         </Group>
       </Groups>
